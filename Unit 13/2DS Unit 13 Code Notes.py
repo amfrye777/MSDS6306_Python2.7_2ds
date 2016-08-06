@@ -515,4 +515,104 @@ else:
     print "\nThat's odd, nothing went wrong."
 
 
+def safe_divide(a,b):
+    try:
+        return a/b
+    except ZeroDivisionError:
+        print "\nDivision by zero"
+
+print safe_divide(1000,0)
+
+
+#####################
+# 13.5.4 Opening a File/"with" Command
+#####################
+
+# the regular way of opening a file, lots of error checking
+try:
+    file = open("some_file.txt")
+    data = file.read()
+except IOError, detail:
+    print "\nCould not read file:", detail
+else:
+    print "Read successfully, file contents:"
+    print data
+finally:
+    # this always gets called, close the file if it's open
+    if not file.closed:
+        file.close()
+
+
+
+#####Opening a File Using "with"
+with open("some_file.txt") as file:
+    data = file.read()
+    print "Read successfully, file contents:"
+    print data
+
+# is the file closed? Let's check.
+print file.closed
+
+
+####Writing a Class to Use "with"
+class BodyPart(object):
+    def __init__(self.name):
+        self.name = name
+        print'1. Just initialized body part with name', name
+
+def __enter__(self):
+    print '2. Building up from "with" command'
+    return self
+
+def __exit__(self, type, value, traceback):
+    if value is not None:
+        print '4. An error occurred,', value
+    else:
+        print '4. Exit was called, no errors'
+
+def print_self(self):
+    print '3. Hi, my name is:', self.name
+
+
+with BodyPart("Lungs") as bp:
+    bp.print_self()
+
+
+import time
+class Timer:
+    def __enter__(self):
+        self.start = time.time()
+        return self
+    def __exit__(self, *args):
+        self.end = time.time()
+        self.interval = self.end-self.start
+        print('Code took %#.03f sec. to run' % self.interval)
+
+with Timer() as t:
+    time.sleep(2)
+
+import numpy as np
+t = np.linspace(0, 1, 100)
+y = np.sin(2 * np.pi * t)
+
+print np.max(y)
+print np.median(y)
+
+from matplotlib import pyplot as plt
+
+plt.plot(t,y)
+plt.show()
+
+
+import sqlite3
+print sqlite3.version
+
+import pdb
+j = 0
+for i in range(0,5):
+    j += 5*i
+    pdb.set_trace()
+
+print j
+
 
