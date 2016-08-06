@@ -273,6 +273,246 @@ y_array = [7, 5, 3]
 # this prints the sum of the multiplication of the arrays
 print sum(x*y for x,y in zip(x_array, y_array))
 
-
 list_output = [x for x in 'databases']
 print list_output
+
+
+#####################
+# 13.4.3 Stacks and Queues
+#####################
+
+####### list as a stack
+print "\nStack Example:"
+list_example = []
+list_example.append('LIFO')
+
+for i in range(0, 5):
+    list_example.append(i)
+
+print list_example
+
+val = list_example.pop()
+
+print val
+print list_example
+
+######## list as a queue
+print "\nQueue Example:"
+from collections import deque
+
+# this is an import, we will get back to that later
+
+q_example = deque()
+q_example.appendleft("FIFO")
+for i in range(5, 10):
+    q_example.appendleft(i)
+
+print q_example
+
+val = q_example.pop()
+print val
+print q_example
+
+
+#####################
+# 13.4.4 Conditionals
+#####################
+
+# conditional example
+print "\nConditional Example:"
+a, b = True, False
+
+if a:
+    print "a is true"
+elif a or b:
+    print "b is true"
+else:
+    print "neither a or b is true"
+
+# conditional assignment
+val = "b is true" if b else "b is false"
+print val
+
+# I. The traditional == works as expected
+a=5
+b=5
+if a==b:
+     print "I. Everybody is a five!"
+else:
+     print "I. Wish we had fives..."
+
+# II. The "is" function is for object comparison, much like comparing pointers
+a=327676
+b=a
+if a is b:
+     print "II. These are the same object!"
+else:
+     print "II. Wish we had the same objects..."
+
+# III. While these have the same value, they are not the same memory
+a=327676
+b=327675+1
+if a is b:
+     print "III. These are the same object!"
+else:
+     print "III. Wish we had the same objects..."
+
+# IV. You would expect this to say "Wish we had fives...", but small integers
+# like this are cached, so right now they do point to the same memory
+a = 5
+b = 4 + 1
+if a is b:
+    print "IV. Everybody is a five!"
+else:
+    print "IV. Wish we had fives..."
+
+# V. But if we change the memory, that caching gets released
+b = b * 2.0
+b = b / 2.0
+if a is b:
+    print "IV. Everybody is a five!"
+else:
+    print "IV. Wish we had fives..."
+
+
+# you can also perform nested conditionals, like bounding
+if 5 < 8 < 6: # not true because 8 is not less than 6
+    print 'VI. How did we get here?'
+elif 4 < 18 < 22:
+    print 'VI. Got through nested conditional'
+
+
+a = 3 < 7 < 32
+print a
+b = 'six' < 'seven'
+print b
+x = 10
+print x
+y = 9+1
+print y
+c = (x==y)
+print c
+d = (x is y)
+print d
+x = 567
+print x
+y = 566 + 1
+print y
+e = x is y
+print e
+
+
+#####################
+# 13.5 Functions and Introspection
+#####################
+
+# create and call a function
+# the function can be defined almost anywhere in file, as long as it is defined before it gets used
+def make_strings_lowercase(str_input):
+    assert isinstance(str_input, str)  # test the type of input
+    return str_input.lower()
+
+
+# now we are back on the main execution	Function Example:
+print make_strings_lowercase("UPPER CASE")
+print make_strings_lowercase("Data Mining")
+
+#################
+def show_data(data):
+    print data
+
+
+some_data = [1, 2, 3, 4, 5]
+show_data(some_data)
+
+
+# you can also define default values for the functions
+def show_data(data, x=None, y=None):
+    # print the data
+    print data
+    if x is not None:
+        print x
+    if y is not None:
+        print y
+
+
+some_data = [1, 2, 3, 4, 5]
+show_data(some_data);
+show_data(some_data, x='cool X value')
+show_data(some_data, y='cool Y value', x='cool X value')
+
+
+# as well as have multiple return types in the function
+def get_square_and_tenth_power(x):
+    return x**2, x**10
+print get_square_and_tenth_power(2)
+
+#####################
+# 13.5.2 Classes
+#####################
+
+# This is a class that inherits from a generic object
+class BodyPart(object):
+    # this is a class variable, shared across all instances
+    def __init__(self, name):
+        self.name = name
+        # the name attribute is unique to each instance of the class
+
+
+# now define a class that subclasses from the defined BodyPart class
+class Heart(BodyPart):
+    def __init__(self, rate=60, units="minute"):
+        self.rate = rate
+        self.units = units
+        super(Heart, self).__init__("Heart")
+
+    def print_rate(self):
+        print " name: " + str(self.name) + " has " + str(self.rate) + " beats per " + self.units
+
+
+class BodyPart(object):
+    kind = "This is a long string meant to be so long that the memory for it is not cached by python"
+    # this is a class variable, shared across all instances
+
+my_heart = Heart(1, "second")
+generic_part = BodyPart("Foot")
+
+print my_heart.kind
+
+print my_heart.kind is generic_part.kind
+
+#####################
+# 13.5.3 Exception Handling
+#####################
+
+import random
+
+i = random.randrange(0, 8)
+j = random.randrange(-1, 6)
+print i, j
+
+some = [3, 10, 0, 8, 18];
+try:
+    den = some[j] / i
+    print "A:", den
+    frac = (i + j) / den
+    print "B:", frac
+    if frac = < 2:
+        k = 3
+    else
+        k = 'mike'
+    print "C:", k
+    print "D:", some[k]
+except ZeroDivisionError:
+    print "\nDivision by zero."
+except TypeError, detail:
+    print "\nSome type mismatch:", detail
+except IndexError, detail:
+    print "\nSome value is out of range:", detail
+except:
+    print "\nSomething else went wrong."
+else:
+    print "\nThat's odd, nothing went wrong."
+
+
+
