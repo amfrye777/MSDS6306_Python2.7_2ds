@@ -3,22 +3,25 @@ import pyodbc
 ### https://mkleehammer.github.io/pyodbc/
 
 # Connection example: Windows, without a DSN, using the Windows SQL Server driver
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-HP1K4G2\SQLEXPRESS;DATABASE=Sales;UID=test;PWD=testpass')
-
+cnxn = pyodbc.connect('DRIVER={SQL Server};'
+                      'SERVER=DESKTOP-HP1K4G2\SQLEXPRESS;'
+                      'DATABASE=Sales;'
+                      'UID=test;'
+                      'PWD=testpass')
 cursor = cnxn.cursor()
+
 
 cursor.execute("select * from item")
 row = cursor.fetchone()
 if row:
     print(row)
-
-print(row)
-type(row)
+    print(type(row))
 
 cursor.execute("select * from Item where UnitPrice < 20")
 row = cursor.fetchone()
 print('Item Name:', row[1])         # access by column index
 print('Item Name:', row.ItemName)   # or access by name
+print(type(row.ItemName))
 
 while 1:
     row = cursor.fetchone()
@@ -28,9 +31,16 @@ while 1:
 
 cursor.execute("select * from Item where UnitPrice < 20")
 rows = cursor.fetchall()
+if rows:
+    print(rows)
+    print(type(rows))
+    print(rows[1])
+
+
+cursor.execute("select * from Item where UnitPrice < 20")
+rows = cursor.fetchall()
 for row in rows:
     print(row.ItemID, row.ItemName)
-
 
 
 cursor.execute("select * from Item where UnitPrice < 20")
