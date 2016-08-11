@@ -589,7 +589,14 @@ class Timer:
         print('Code took %#.03f sec. to run' % self.interval)
 
 with Timer() as t:
+    1+1
     time.sleep(2)
+    1 + 1
+    time.sleep(2)
+    1 + 1
+    time.sleep(2)
+
+print t
 
 import numpy as np
 t = np.linspace(0, 1, 100)
@@ -616,3 +623,33 @@ for i in range(0,5):
 print j
 
 
+a = 5/2
+b = 6/0
+c = 5.0/2.0
+
+type(a)
+type(b)
+type(c)
+
+frozenset(["nights, ni"])
+["nights, ni"]
+
+
+
+for i in range(5):
+    val = val + 2
+    if val > 9:
+        break
+    else:
+        val = None
+
+
+x = 10
+y = 9 + 1
+c = (x == y)
+
+d = (x is y)
+print(c)
+print(d)
+
+print(20.0/40)
